@@ -1,10 +1,10 @@
-package com.example.interview_webapp.Service;
+package com.example.interviewWebapp.Service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.example.interview_webapp.Repository.UserRepo;
+import com.example.interviewWebapp.Repository.UserRepo;
 @Service
 public class AuthUserService implements UserDetailsService {
     private final UserRepo userRepo;
@@ -17,7 +17,6 @@ public class AuthUserService implements UserDetailsService {
         long count = userRepo.count();
         System.out.println("connection OK, user count: " + count);
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

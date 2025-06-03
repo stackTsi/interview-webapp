@@ -1,4 +1,4 @@
-package com.example.interview_webapp;
+package com.example.interviewWebapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

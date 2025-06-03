@@ -1,4 +1,4 @@
-package com.example.interview_webapp.Model;
+package com.example.interviewWebapp.Model;
 
 public enum UserRole {
     ADMIN,

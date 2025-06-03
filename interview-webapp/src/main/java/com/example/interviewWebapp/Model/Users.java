@@ -1,4 +1,4 @@
-package com.example.interview_webapp.Model;
+package com.example.interviewWebapp.Model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

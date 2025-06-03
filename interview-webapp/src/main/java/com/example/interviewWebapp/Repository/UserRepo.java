@@ -1,8 +1,7 @@
-package com.example.interview_webapp.Repository;
+package com.example.interviewWebapp.Repository;
 
-import com.example.interview_webapp.Model.Users;
+import com.example.interviewWebapp.Model.Users;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
