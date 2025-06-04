@@ -1,6 +1,6 @@
 package com.example.interviewWebapp.Repository;
 
-import com.example.interviewWebapp.Model.Users;
+import com.example.interviewWebapp.Entity.Users;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.example.interviewWebapp.runner;
 
-import com.example.interviewWebapp.Service.AuthUserService;
+import com.example.interviewWebapp.Security.AuthUserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

@@ -1,5 +1,7 @@
 package com.example.interviewWebapp.Config;
 
+import com.example.interviewWebapp.Security.LoginSuccessHandler;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,9 +17,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService){
+    private final LoginSuccessHandler loginSuccessHandler;
+    public SecurityConfig(UserDetailsService userDetailsService, LoginSuccessHandler loginSuccessHandler){
         this.userDetailsService = userDetailsService;
+        this.loginSuccessHandler = loginSuccessHandler;
     }
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -43,11 +46,12 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginProcessingUrl("/api/auth/login")
+                        .successHandler(loginSuccessHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout")
-                        .logoutSuccessUrl("/api/auth/login")
+                        .logoutSuccessHandler(((request, response, auth) -> response.setStatus(HttpServletResponse.SC_OK) ))
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                 )

@@ -1,4 +1,4 @@
-package com.example.interviewWebapp.Service;
+package com.example.interviewWebapp.Security;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
