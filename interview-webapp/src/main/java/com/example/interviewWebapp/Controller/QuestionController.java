@@ -1,10 +1,14 @@
 package com.example.interviewWebapp.Controller;
 
+import com.example.interviewWebapp.Dto.PagedResponseDTO;
+import com.example.interviewWebapp.Dto.QuestionResponseDTO;
 import com.example.interviewWebapp.Entity.Enum.Category;
 import com.example.interviewWebapp.Entity.Enum.Level;
 import com.example.interviewWebapp.Entity.Questions;
+import com.example.interviewWebapp.Mapper.QuestionMapper;
 import com.example.interviewWebapp.Service.QuestionService;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +20,10 @@ import java.util.List;
 @PreAuthorize("hasRole('ADMIN')")
 public class QuestionController {
     private final QuestionService questionService;
-
-    public QuestionController(QuestionService questionService) {
+    private final QuestionMapper questionMapper;
+    public QuestionController(QuestionService questionService, QuestionMapper questionMapper) {
         this.questionService = questionService;
+        this.questionMapper = questionMapper;
     }
 
     @PostMapping
@@ -27,10 +32,28 @@ public class QuestionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Questions>> getAllQuestions(
+    public ResponseEntity<PagedResponseDTO<QuestionResponseDTO>> getAllQuestions(
             @RequestParam(required = false) Level level,
-            @RequestParam(required = false) Category category){
-        return ResponseEntity.ok(questionService.getAllQuestions(level, category));
+            @RequestParam(required = false) Category category,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size)
+    {
+        Page<Questions> questionPage = questionService.getAllQuestions(level, category, page, size);
+        List<QuestionResponseDTO> dtos = questionPage
+                .getContent()
+                .stream()
+                .map(questionMapper::toDTO)
+                .toList();
+
+        PagedResponseDTO<QuestionResponseDTO> response = new PagedResponseDTO<>();
+        response.setContent(dtos);
+        response.setPageNumber(questionPage.getNumber());
+        response.setPageSize(questionPage.getSize());
+        response.setTotalElements(questionPage.getTotalElements());
+        response.setTotalPages(questionPage.getTotalPages());
+        response.setLast(questionPage.isLast());
+
+        return ResponseEntity.ok(response);
     }
     @PutMapping("/{id}")
     public ResponseEntity<Questions> updateQuestion(@PathVariable ObjectId id, @RequestBody Questions question){

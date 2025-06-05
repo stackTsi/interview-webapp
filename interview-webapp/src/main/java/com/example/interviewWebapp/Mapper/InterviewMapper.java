@@ -5,9 +5,9 @@ import com.example.interviewWebapp.Dto.InterviewResponseDTO;
 import com.example.interviewWebapp.Dto.StartInterviewRequestDTO;
 import com.example.interviewWebapp.Entity.Interviews;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class InterviewMapper {
 
     private final ModelMapper modelMapper;

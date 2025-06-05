@@ -15,6 +15,8 @@ import com.example.interviewWebapp.Repository.UserRepo;
 import com.example.interviewWebapp.Mapper.InterviewMapper;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -44,7 +46,7 @@ public class InterviewService {
         Level level = request.getSelectedLevel();
         Category category = request.getSelectedCategory();
 
-        List<Questions> questions = questionRepo.findByLevelAndCategory(level, category);
+        Page<Questions> questions = questionRepo.findByLevelAndCategory(level, category, Pageable.unpaged());
         if (questions.isEmpty()) {
             throw new IllegalStateException("No questions found for the specified level and category");
         }
@@ -55,7 +57,7 @@ public class InterviewService {
         interview.setSelectedCategory(category);
         interview.setStartTime(new Date());
         interview.setStatus(InterviewStatus.IN_PROGRESS);
-        interview.setTotalQuestions(questions.size());
+        interview.setTotalQuestions(questions.getContent().size());
         interview.setCreatedAt(new Date());
 
         interview = interviewRepo.save(interview);

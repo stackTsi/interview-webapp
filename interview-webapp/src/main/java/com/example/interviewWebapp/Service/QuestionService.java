@@ -5,9 +5,11 @@ import com.example.interviewWebapp.Entity.Enum.Level;
 import com.example.interviewWebapp.Entity.Questions;
 import com.example.interviewWebapp.Repository.QuestionRepo;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,13 +25,13 @@ public class QuestionService {
         return questionRepo.save(questions);
     }
 
-    public List<Questions> getAllQuestions(Level level, Category category){
-        if (level != null && category != null){
-            return questionRepo.findAll().stream()
-                    .filter(q -> q.getLevel().equals(level) && q.getCategory().equals(category))
-                    .toList();
+    public Page<Questions> getAllQuestions(Level level, Category category, int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (level != null && category != null) {
+            return questionRepo.findByLevelAndCategory(level, category, pageable);
         }
-        return questionRepo.findAll();
+        return questionRepo.findAll(pageable);
     }
 
     public Optional<Questions> updateQuestion(ObjectId id, Questions updated){
