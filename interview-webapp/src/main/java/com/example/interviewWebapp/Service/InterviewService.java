@@ -12,7 +12,6 @@ import com.example.interviewWebapp.Entity.Users;
 import com.example.interviewWebapp.Repository.InterviewRepo;
 import com.example.interviewWebapp.Repository.QuestionRepo;
 import com.example.interviewWebapp.Repository.UserRepo;
-import com.example.interviewWebapp.Mapper.InterviewMapper;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -22,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
