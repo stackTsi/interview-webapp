@@ -43,7 +43,7 @@ public class InterviewController {
     public ResponseEntity<InterviewResponseDTO> completeInterview(@PathVariable ObjectId id){
         Users user = authUserService.getAuthenticatedUser()
                 .orElseThrow(()-> new UsernameNotFoundException("Authenticated user not found"));
-        InterviewResponseDTO response = interviewService.completeInterview(id);
+        InterviewResponseDTO response = interviewService.completeInterview(id, user);
         return ResponseEntity.ok(response);
     }
 }
