@@ -14,6 +14,7 @@ import com.example.interviewWebapp.Repository.QuestionRepo;
 import com.example.interviewWebapp.Repository.UserRepo;
 import com.example.interviewWebapp.Mapper.InterviewMapper;
 import org.bson.types.ObjectId;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,19 +28,21 @@ public class InterviewService {
     private final UserRepo userRepo;
     private final QuestionRepo questionRepo;
     private final InterviewRepo interviewRepo;
+    private final ModelMapper modelMapper;
 
-    public InterviewService(UserRepo userRepo, QuestionRepo questionRepo, InterviewRepo interviewRepo) {
+    public InterviewService(UserRepo userRepo, QuestionRepo questionRepo, InterviewRepo interviewRepo, ModelMapper modelMapper) {
         this.userRepo = userRepo;
         this.questionRepo = questionRepo;
         this.interviewRepo = interviewRepo;
+        this.modelMapper = modelMapper;
     }
 
     public InterviewResponseDTO startInterview(String username, StartInterviewRequestDTO request) {
         Users user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        Level level = Level.valueOf(String.valueOf(request.getSelectedLevel()));
-        Category category = Category.valueOf(String.valueOf(request.getSelectedCategory()));
+        Level level = request.getSelectedLevel();
+        Category category = request.getSelectedCategory();
 
         List<Questions> questions = questionRepo.findByLevelAndCategory(level, category);
         if (questions.isEmpty()) {
@@ -56,13 +59,13 @@ public class InterviewService {
         interview.setCreatedAt(new Date());
 
         interview = interviewRepo.save(interview);
-        return InterviewMapper.toDTO(interview);
+        return modelMapper.map(interview, InterviewResponseDTO.class);
     }
 
     public InterviewResponseDTO getInterviewById(ObjectId id) {
         Interviews interview = interviewRepo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Interview not found"));
-        return InterviewMapper.toDTO(interview);
+        return modelMapper.map(interview, InterviewResponseDTO.class);
     }
 
     public InterviewResponseDTO completeInterview(ObjectId id, Users authUsers){
@@ -70,7 +73,7 @@ public class InterviewService {
                 .orElseThrow(() -> new NoSuchElementException("Interview not found"));
 
         if (!interview.getUserId().equals(authUsers.getId())){
-            throw new AccessDeniedException()
+            throw new AccessDeniedException("You cannot complete the interview of someone else");
         }
 
         if (interview.getStatus() == InterviewStatus.COMPLETED) {
@@ -81,7 +84,7 @@ public class InterviewService {
         interview.setEndTime(new Date());
         interviewRepo.save(interview);
 
-        return InterviewMapper.toDTO(interview);
+        return modelMapper.map(interview, InterviewResponseDTO.class);
     }
 
 }
