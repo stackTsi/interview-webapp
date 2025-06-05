@@ -1,7 +1,6 @@
 package com.example.interviewWebapp.Dto;
 
 import java.util.Date;
-import java.util.List;
 
 public class InterviewResponseDTO {
     private String id;
@@ -13,7 +12,6 @@ public class InterviewResponseDTO {
     private Date startTime;
     private Date endTime;
     private Date createdAt;
-    private List<QuestionResponseDTO> questions;
 
     public String getId() {
         return id;
@@ -85,14 +83,6 @@ public class InterviewResponseDTO {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public List<QuestionResponseDTO> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<QuestionResponseDTO> questions) {
-        this.questions = questions;
     }
 
 
