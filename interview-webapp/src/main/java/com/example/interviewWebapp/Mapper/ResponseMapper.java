@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Mapper;
 
 import com.example.interviewWebapp.Dto.GetResponsesDTO;
-import com.example.interviewWebapp.Dto.SubmitResponsesRequestDTO;
+import com.example.interviewWebapp.Dto.SubmitResponseRequestDTO;
 import com.example.interviewWebapp.Entity.Responses;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
@@ -13,7 +13,7 @@ import java.util.Date;
 public class ResponseMapper {
     private final ModelMapper modelMapper;
 
-    public Responses toEntity(String interviewId, SubmitResponsesRequestDTO dto) {
+    public Responses toEntity(String interviewId, SubmitResponseRequestDTO dto) {
         Responses response = modelMapper.map(dto, Responses.class);
         response.setInterviewId(new ObjectId(interviewId));
         response.setQuestionId(dto.getQuestionId());

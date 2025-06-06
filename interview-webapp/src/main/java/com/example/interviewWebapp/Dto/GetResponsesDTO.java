@@ -4,23 +4,12 @@ import java.util.Date;
 
 public class GetResponsesDTO {
     private String questionId;
+    private String questionTitle;
+    private String questionContent;
     private String userAnswer;
     private int questionOrder;
     private Date answeredAt;
 
-    //FE?
-    private String questionTitle;
-    private String questionContent;
-
-
-
-    public String getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(String questionId) {
-        this.questionId = questionId;
-    }
 
     public String getUserAnswer() {
         return userAnswer;
@@ -46,6 +35,14 @@ public class GetResponsesDTO {
         this.questionOrder = questionOrder;
     }
 
+    public String getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
+
     public String getQuestionTitle() {
         return questionTitle;
     }
@@ -61,8 +58,5 @@ public class GetResponsesDTO {
     public void setQuestionContent(String questionContent) {
         this.questionContent = questionContent;
     }
-
-
-
 }
 

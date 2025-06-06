@@ -1,8 +1,6 @@
 package com.example.interviewWebapp.Service;
 
-import com.example.interviewWebapp.Dto.GetResponsesDTO;
-import com.example.interviewWebapp.Dto.PagedResponseDTO;
-import com.example.interviewWebapp.Dto.SubmitResponsesRequestDTO;
+import com.example.interviewWebapp.Dto.*;
 import com.example.interviewWebapp.Entity.Interviews;
 import com.example.interviewWebapp.Entity.Questions;
 import com.example.interviewWebapp.Entity.Responses;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class ResponseService {
@@ -33,45 +32,39 @@ public class ResponseService {
         this.responseMapper = responseMapper;
     }
 
-    public void submitResponse(ObjectId interviewId, SubmitResponsesRequestDTO request) {
+    public void submitResponse(ObjectId interviewId, SubmitMultipleResponsesRequestDTO request) {
         Interviews interview = interviewRepo.findById(interviewId)
                 .orElseThrow(()-> new NoSuchElementException("Interview not found"));
-        ObjectId questionObjectId = request.getQuestionId();
-        Questions questions = questionRepo.findById(questionObjectId)
-                .orElseThrow(()-> new NoSuchElementException("Question not found"));
-        Responses responses = responseMapper.toEntity(interviewId.toHexString(),request);
+        for (SubmitResponseRequestDTO responseDTO : request.getResponses()) {
+            ObjectId questionObjectId = responseDTO.getQuestionId();
+            Questions question = questionRepo.findById(questionObjectId)
+                    .orElseThrow(() -> new NoSuchElementException("Question not found"));
 
-        responseRepo.save(responses);
+            Responses response = responseMapper.toEntity(interviewId.toHexString(), responseDTO);
+            responseRepo.save(response);
+        }
     }
 
-    public PagedResponseDTO<GetResponsesDTO> getAllResponsesByInterviewId(ObjectId interviewId, int page, int size) {
-        Interviews interviews = interviewRepo.findById(interviewId)
+    public List<GetResponsesDTO> getAllResponsesByInterviewId(ObjectId interviewId) {
+        Interviews interview = interviewRepo.findById(interviewId)
                 .orElseThrow(() -> new NoSuchElementException("Interview not found"));
-        Pageable pageable = PageRequest.of(page, size);
 
-        Page<Responses> responsesPage = responseRepo.findByInterviewId(interviewId, pageable);
-        List<GetResponsesDTO> dtos = responsesPage.getContent().stream()
-                .map(response -> {
-                    GetResponsesDTO dto = responseMapper.toDTO(response);
+        List<Responses> responses = responseRepo.findByInterviewId(interviewId);
 
-                    questionRepo.findById(response.getQuestionId()).ifPresent(question -> {
-                        dto.setQuestionTitle(question.getTitle());
-                        dto.setQuestionContent(question.getContent());
-                    });
+        return responses.stream().map(response -> {
+            GetResponsesDTO dto = new GetResponsesDTO();
+            dto.setQuestionId(response.getQuestionId().toHexString());
+            dto.setUserAnswer(response.getUserAnswer());
+            dto.setQuestionOrder(response.getQuestionOrder());
+            dto.setAnsweredAt(response.getAnsweredAt());
 
-                    return dto;
-                })
-                .toList();
+            questionRepo.findById(response.getQuestionId()).ifPresent(question -> {
+                dto.setQuestionTitle(question.getTitle());
+                dto.setQuestionContent(question.getContent());
+            });
 
-        PagedResponseDTO<GetResponsesDTO> pagedResponse = new PagedResponseDTO<>();
-        pagedResponse.setContent(dtos);
-        pagedResponse.setPageNumber(responsesPage.getNumber());
-        pagedResponse.setPageSize(responsesPage.getSize());
-        pagedResponse.setTotalElements(responsesPage.getTotalElements());
-        pagedResponse.setTotalPages(responsesPage.getTotalPages());
-        pagedResponse.setLast(responsesPage.isLast());
-
-        return pagedResponse;
+            return dto;
+        }).toList();
     }
 
 

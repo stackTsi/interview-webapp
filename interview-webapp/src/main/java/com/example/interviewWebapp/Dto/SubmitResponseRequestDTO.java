@@ -2,7 +2,7 @@ package com.example.interviewWebapp.Dto;
 
 import org.bson.types.ObjectId;
 
-public class SubmitResponsesRequestDTO {
+public class SubmitResponseRequestDTO {
     private ObjectId questionId;
     private String userAnswer;
     private int questionOrder;

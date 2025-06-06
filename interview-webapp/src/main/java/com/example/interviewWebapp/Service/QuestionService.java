@@ -6,10 +6,8 @@ import com.example.interviewWebapp.Dto.QuestionResponseDTO;
 import com.example.interviewWebapp.Entity.Enum.Category;
 import com.example.interviewWebapp.Entity.Enum.Level;
 import com.example.interviewWebapp.Entity.Questions;
-import com.example.interviewWebapp.Entity.Users;
 import com.example.interviewWebapp.Mapper.QuestionMapper;
 import com.example.interviewWebapp.Repository.QuestionRepo;
-import com.example.interviewWebapp.Repository.UserRepo;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,18 +16,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class QuestionService {
-    private final UserRepo userRepo;
     private final QuestionRepo questionRepo;
     private final QuestionMapper questionMapper;
 
 
-    public QuestionService(UserRepo userRepo, QuestionRepo questionRepo, QuestionMapper questionMapper) {
-        this.userRepo = userRepo;
+    public QuestionService(QuestionRepo questionRepo, QuestionMapper questionMapper) {
         this.questionRepo = questionRepo;
         this.questionMapper = questionMapper;
     }
