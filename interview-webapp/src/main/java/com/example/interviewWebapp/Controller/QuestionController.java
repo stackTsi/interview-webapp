@@ -1,13 +1,17 @@
 package com.example.interviewWebapp.Controller;
 
+import com.example.interviewWebapp.Dto.CreateQuestionsRequestDTO;
 import com.example.interviewWebapp.Dto.PagedResponseDTO;
 import com.example.interviewWebapp.Dto.QuestionResponseDTO;
 import com.example.interviewWebapp.Entity.Enum.Category;
 import com.example.interviewWebapp.Entity.Enum.Level;
 import com.example.interviewWebapp.Entity.Questions;
+import com.example.interviewWebapp.Entity.Users;
 import com.example.interviewWebapp.Mapper.QuestionMapper;
+import com.example.interviewWebapp.Security.AuthUserService;
 import com.example.interviewWebapp.Service.QuestionService;
 import org.bson.types.ObjectId;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +21,25 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('ADMIN')")
 public class QuestionController {
     private final QuestionService questionService;
-    public QuestionController(QuestionService questionService, QuestionMapper questionMapper) {
+    private final QuestionMapper questionMapper;
+    private final AuthUserService authUserService;
+    public QuestionController(QuestionService questionService, QuestionMapper questionMapper, AuthUserService authUserService) {
         this.questionService = questionService;
+        this.questionMapper = questionMapper;
+        this.authUserService = authUserService;
     }
 
     @PostMapping
-    public ResponseEntity<Questions> createQuestion(@RequestBody Questions question) {
-        return ResponseEntity.ok(questionService.createQuestions(question));
+    public ResponseEntity<QuestionResponseDTO> createQuestion(
+            @RequestBody CreateQuestionsRequestDTO dto
+    ) {
+        Users adminUser = authUserService.getAuthenticatedUser()
+                .orElseThrow(() -> new RuntimeException("User not authenticated"));
+        Questions question = questionMapper.toEntity(dto, adminUser);
+        Questions saved = questionService.createQuestions(question);
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionMapper.toDTO(saved));
     }
+
 
     @GetMapping
     public ResponseEntity<PagedResponseDTO<QuestionResponseDTO>> getAllQuestions(
