@@ -32,13 +32,10 @@ public class AuthUserService implements UserDetailsService {
 
     public Optional<Users> getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication == null || !authentication.isAuthenticated()) {
             return Optional.empty();
         }
-
         String username = authentication.getName();
-
         return userRepo.findByUsername(username);
     }
 }
