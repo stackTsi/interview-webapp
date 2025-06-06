@@ -39,27 +39,25 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http    .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/user/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
+        http.csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginProcessingUrl("/api/auth/login")
-                        .successHandler(loginSuccessHandler)
-                        .permitAll()
+            .formLogin(form -> form
+                    .loginProcessingUrl("/api/auth/login")
+                    .successHandler(loginSuccessHandler)
+                    .permitAll()
+            )
+            .logout(logout -> logout
+                    .logoutUrl("/api/auth/logout")
+                    .logoutSuccessHandler(((request, response, auth) -> response.setStatus(HttpServletResponse.SC_OK) ))
+                    .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/api/auth/logout")
-                        .logoutSuccessHandler(((request, response, auth) -> response.setStatus(HttpServletResponse.SC_OK) ))
-                        .deleteCookies("JSESSIONID")
-                        .invalidateHttpSession(true)
-                )
-                .sessionManagement(session -> session
-                        .maximumSessions(1)
-                        .expiredUrl("/api/auth/login?expired=true")
+            .sessionManagement(session -> session
+                    .maximumSessions(1)
+                    .expiredUrl("/api/auth/login?expired=true")
                 );
 
         return http.build();
