@@ -38,20 +38,8 @@ public class QuestionController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size)
     {
-        Page<Questions> questionPage = questionService.getAllQuestions(level, category, page, size);
-        List<QuestionResponseDTO> dtos = questionPage
-                .getContent()
-                .stream()
-                .map(questionMapper::toDTO)
-                .toList();
+        PagedResponseDTO<QuestionResponseDTO> response = questionService.getAllQuestions(level, category, page, size);
 
-        PagedResponseDTO<QuestionResponseDTO> response = new PagedResponseDTO<>();
-        response.setContent(dtos);
-        response.setPageNumber(questionPage.getNumber());
-        response.setPageSize(questionPage.getSize());
-        response.setTotalElements(questionPage.getTotalElements());
-        response.setTotalPages(questionPage.getTotalPages());
-        response.setLast(questionPage.isLast());
 
         return ResponseEntity.ok(response);
     }
