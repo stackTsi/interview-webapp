@@ -8,22 +8,17 @@ import com.example.interviewWebapp.Entity.Questions;
 import com.example.interviewWebapp.Mapper.QuestionMapper;
 import com.example.interviewWebapp.Service.QuestionService;
 import org.bson.types.ObjectId;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/questions")
 @PreAuthorize("hasRole('ADMIN')")
 public class QuestionController {
     private final QuestionService questionService;
-    private final QuestionMapper questionMapper;
     public QuestionController(QuestionService questionService, QuestionMapper questionMapper) {
         this.questionService = questionService;
-        this.questionMapper = questionMapper;
     }
 
     @PostMapping
@@ -39,8 +34,6 @@ public class QuestionController {
             @RequestParam(defaultValue = "5") int size)
     {
         PagedResponseDTO<QuestionResponseDTO> response = questionService.getAllQuestions(level, category, page, size);
-
-
         return ResponseEntity.ok(response);
     }
     @PutMapping("/{id}")
