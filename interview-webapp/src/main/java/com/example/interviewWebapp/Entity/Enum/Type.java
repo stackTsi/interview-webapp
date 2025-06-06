@@ -1,6 +1,6 @@
 package com.example.interviewWebapp.Entity.Enum;
 
 public enum Type {
-    text,
-    multiple_choice
+    TEXT,
+    MULTIPLE_CHOICE
 }

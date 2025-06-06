@@ -6,6 +6,7 @@ import com.example.interviewWebapp.Entity.Enum.Level;
 import com.example.interviewWebapp.Entity.Enum.Type;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
