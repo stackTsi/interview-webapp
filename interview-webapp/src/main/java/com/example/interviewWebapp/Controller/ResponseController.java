@@ -29,7 +29,7 @@ public class ResponseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetResponsesDTO>> getAllResponses(@PathVariable("id") ObjectId interviewId) {
+    public ResponseEntity<List<GetResponsesDTO>> getAllResponses(@PathVariable("interviewId") ObjectId interviewId) {
         List<GetResponsesDTO> responses = responseService.getAllResponsesByInterviewId(interviewId);
         return ResponseEntity.ok(responses);
     }

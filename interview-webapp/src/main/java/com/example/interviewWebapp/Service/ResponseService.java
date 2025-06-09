@@ -35,7 +35,11 @@ public class ResponseService {
     public void submitResponse(ObjectId interviewId, SubmitMultipleResponsesRequestDTO request) {
         Interviews interview = interviewRepo.findById(interviewId)
                 .orElseThrow(()-> new NoSuchElementException("Interview not found"));
-        for (SubmitResponseRequestDTO responseDTO : request.getResponses()) {
+        List<SubmitResponseRequestDTO> responses = request.getResponses();
+        if (responses == null || responses.isEmpty()) {
+            throw new IllegalArgumentException("Responses list cannot be null or empty");
+        }
+        for (SubmitResponseRequestDTO responseDTO : responses) {
             ObjectId questionObjectId = responseDTO.getQuestionId();
             Questions question = questionRepo.findById(questionObjectId)
                     .orElseThrow(() -> new NoSuchElementException("Question not found"));
