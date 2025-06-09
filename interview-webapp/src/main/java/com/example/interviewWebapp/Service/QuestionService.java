@@ -12,6 +12,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -37,12 +38,8 @@ public class QuestionService {
 
     public PagedResponseDTO<QuestionResponse> getAllQuestions(Level level, Category category, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
-        Page<Questions> questionsPage;
-        if (level != null && category != null) {
-            questionsPage = questionRepo.findByLevelAndCategory(level, category, pageable);
-        } else {
-            questionsPage = questionRepo.findAll(pageable);
-        }
+
+        Page<Questions> questionsPage = questionRepo.findQuestions(level, category, pageable);
 
         List<QuestionResponse> dtos = questionsPage.getContent().stream()
                 .map(questionMapper::toDTO)
