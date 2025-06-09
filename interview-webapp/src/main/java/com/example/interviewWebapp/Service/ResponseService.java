@@ -1,6 +1,6 @@
 package com.example.interviewWebapp.Service;
 
-import com.example.interviewWebapp.Dto.ResponsesDTO.GetResponsesDTO;
+import com.example.interviewWebapp.Dto.ResponsesDTO.GetResponses;
 import com.example.interviewWebapp.Dto.ResponsesDTO.SubmitMultipleResponsesRequestDTO;
 import com.example.interviewWebapp.Dto.ResponsesDTO.SubmitResponseRequestDTO;
 import com.example.interviewWebapp.Entity.Interviews;
@@ -47,14 +47,14 @@ public class ResponseService {
         }
     }
 
-    public List<GetResponsesDTO> getAllResponsesByInterviewId(ObjectId interviewId) {
+    public List<GetResponses> getAllResponsesByInterviewId(ObjectId interviewId) {
         Interviews interview = interviewRepo.findById(interviewId)
                 .orElseThrow(() -> new NoSuchElementException("Interview not found"));
 
         List<Responses> responses = responseRepo.findByInterviewId(interviewId);
 
         return responses.stream().map(response -> {
-            GetResponsesDTO dto = new GetResponsesDTO();
+            GetResponses dto = new GetResponses();
             dto.setQuestionId(response.getQuestionId().toHexString());
             dto.setUserAnswer(response.getUserAnswer());
             dto.setQuestionOrder(response.getQuestionOrder());

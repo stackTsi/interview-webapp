@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Controller;
 
 import com.example.interviewWebapp.Dto.UserDTO.RegisterRequestDTO;
-import com.example.interviewWebapp.Dto.UserDTO.RegisterResponseDTO;
+import com.example.interviewWebapp.Dto.UserDTO.RegisterResponse;
 import com.example.interviewWebapp.Entity.Users;
 import com.example.interviewWebapp.Security.AuthUserService;
 import jakarta.servlet.http.HttpSession;
@@ -44,7 +44,7 @@ public class AuthController {
         try {
             Users user = authUserService.registerNewUsers(requestDTO);
 
-            RegisterResponseDTO responseDTO = modelMapper.map(user,RegisterResponseDTO.class);
+            RegisterResponse responseDTO = modelMapper.map(user, RegisterResponse.class);
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
 
         } catch (IllegalArgumentException e) {

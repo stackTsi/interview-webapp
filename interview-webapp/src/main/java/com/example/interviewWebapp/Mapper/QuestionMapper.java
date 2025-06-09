@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Mapper;
 
 import com.example.interviewWebapp.Dto.QuestionDTO.CreateQuestionsRequestDTO;
-import com.example.interviewWebapp.Dto.QuestionDTO.QuestionResponseDTO;
+import com.example.interviewWebapp.Dto.QuestionDTO.QuestionResponse;
 import com.example.interviewWebapp.Entity.Questions;
 import com.example.interviewWebapp.Entity.Users;
 import org.modelmapper.ModelMapper;
@@ -15,10 +15,10 @@ public class QuestionMapper {
         this.modelMapper = modelMapper;
     }
 
-    public QuestionResponseDTO toDTO(Questions questions){
-        return modelMapper.map(questions, QuestionResponseDTO.class);
+    public QuestionResponse toDTO(Questions questions){
+        return modelMapper.map(questions, QuestionResponse.class);
     }
-    public Questions toEntity(QuestionResponseDTO dto){
+    public Questions toEntity(QuestionResponse dto){
         return modelMapper.map(dto, Questions.class);
     }
 

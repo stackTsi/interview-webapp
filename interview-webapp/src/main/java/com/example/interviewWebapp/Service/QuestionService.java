@@ -2,7 +2,7 @@ package com.example.interviewWebapp.Service;
 
 import com.example.interviewWebapp.Dto.QuestionDTO.CreateQuestionsRequestDTO;
 import com.example.interviewWebapp.Dto.PagedResponseDTO;
-import com.example.interviewWebapp.Dto.QuestionDTO.QuestionResponseDTO;
+import com.example.interviewWebapp.Dto.QuestionDTO.QuestionResponse;
 import com.example.interviewWebapp.Entity.Enum.Category;
 import com.example.interviewWebapp.Entity.Enum.Level;
 import com.example.interviewWebapp.Entity.Questions;
@@ -35,7 +35,7 @@ public class QuestionService {
         return questionRepo.save(questions);
     }
 
-    public PagedResponseDTO<QuestionResponseDTO> getAllQuestions(Level level, Category category, int page, int size){
+    public PagedResponseDTO<QuestionResponse> getAllQuestions(Level level, Category category, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<Questions> questionsPage;
         if (level != null && category != null) {
@@ -43,19 +43,18 @@ public class QuestionService {
         } else {
             questionsPage = questionRepo.findAll(pageable);
         }
-        List<QuestionResponseDTO> dtos = questionsPage.getContent().stream()
+
+        List<QuestionResponse> dtos = questionsPage.getContent().stream()
                 .map(questionMapper::toDTO)
                 .toList();
 
-        PagedResponseDTO<QuestionResponseDTO> response = new PagedResponseDTO<>();
+        PagedResponseDTO<QuestionResponse> response = new PagedResponseDTO<>();
         response.setContent(dtos);
         response.setPageNumber(questionsPage.getNumber());
         response.setPageSize(questionsPage.getSize());
         response.setTotalElements(questionsPage.getTotalElements());
         response.setTotalPages(questionsPage.getTotalPages());
         response.setLast(questionsPage.isLast());
-
-
         return response;
     }
 

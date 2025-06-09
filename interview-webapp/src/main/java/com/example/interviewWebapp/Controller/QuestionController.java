@@ -2,7 +2,7 @@ package com.example.interviewWebapp.Controller;
 
 import com.example.interviewWebapp.Dto.QuestionDTO.CreateQuestionsRequestDTO;
 import com.example.interviewWebapp.Dto.PagedResponseDTO;
-import com.example.interviewWebapp.Dto.QuestionDTO.QuestionResponseDTO;
+import com.example.interviewWebapp.Dto.QuestionDTO.QuestionResponse;
 import com.example.interviewWebapp.Entity.Enum.Category;
 import com.example.interviewWebapp.Entity.Enum.Level;
 import com.example.interviewWebapp.Entity.Questions;
@@ -30,7 +30,7 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<QuestionResponseDTO> createQuestion(
+    public ResponseEntity<QuestionResponse> createQuestion(
             @RequestBody CreateQuestionsRequestDTO dto
     ) {
         Users adminUser = authUserService.getAuthenticatedUser()
@@ -42,18 +42,18 @@ public class QuestionController {
 
 
     @GetMapping
-    public ResponseEntity<PagedResponseDTO<QuestionResponseDTO>> getAllQuestions(
+    public ResponseEntity<PagedResponseDTO<QuestionResponse>> getAllQuestions(
             @RequestParam(required = false) Level level,
             @RequestParam(required = false) Category category,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size)
     {
-        PagedResponseDTO<QuestionResponseDTO> response = questionService.getAllQuestions(level, category, page, size);
+        PagedResponseDTO<QuestionResponse> response = questionService.getAllQuestions(level, category, page, size);
         return ResponseEntity.ok(response);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<QuestionResponseDTO> updateQuestion(@PathVariable ObjectId id,
-                                                    @RequestBody CreateQuestionsRequestDTO dto){
+    public ResponseEntity<QuestionResponse> updateQuestion(@PathVariable ObjectId id,
+                                                           @RequestBody CreateQuestionsRequestDTO dto){
         return questionService.updateQuestion(id, dto)
                 .map(updated -> ResponseEntity.ok(questionMapper.toDTO(updated)))
                 .orElse(ResponseEntity.notFound().build());

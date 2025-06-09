@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Mapper;
 
 
-import com.example.interviewWebapp.Dto.InterviewsDTO.InterviewResponseDTO;
+import com.example.interviewWebapp.Dto.InterviewsDTO.InterviewResponse;
 import com.example.interviewWebapp.Dto.InterviewsDTO.StartInterviewRequestDTO;
 import com.example.interviewWebapp.Entity.Interviews;
 import org.modelmapper.ModelMapper;
@@ -16,8 +16,8 @@ public class InterviewMapper {
         this.modelMapper = modelMapper;
     }
 
-    public InterviewResponseDTO toDTO(Interviews interview) {
-        return modelMapper.map(interview, InterviewResponseDTO.class);
+    public InterviewResponse toDTO(Interviews interview) {
+        return modelMapper.map(interview, InterviewResponse.class);
     }
 
     public Interviews toEntity(StartInterviewRequestDTO dto) {

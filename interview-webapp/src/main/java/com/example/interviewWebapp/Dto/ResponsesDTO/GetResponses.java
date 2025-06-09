@@ -2,7 +2,7 @@ package com.example.interviewWebapp.Dto.ResponsesDTO;
 
 import java.util.Date;
 
-public class GetResponsesDTO {
+public class GetResponses {
     private String questionId;
     private String questionTitle;
     private String questionContent;

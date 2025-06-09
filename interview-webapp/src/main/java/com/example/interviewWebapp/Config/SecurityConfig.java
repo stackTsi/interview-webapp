@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.security.auth.callback.UnsupportedCallbackException;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -45,6 +47,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                     .loginProcessingUrl("/api/auth/login")
                     .successHandler(loginSuccessHandler)
+//                    .failureHandler()
                     .permitAll()
             )
             .logout(logout -> logout

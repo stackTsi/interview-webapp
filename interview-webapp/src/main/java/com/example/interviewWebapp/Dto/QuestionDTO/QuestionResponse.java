@@ -2,7 +2,7 @@ package com.example.interviewWebapp.Dto.QuestionDTO;
 
 import java.util.List;
 
-public class QuestionResponseDTO {
+public class QuestionResponse {
     private String id;
     private String title;
     private String content;
