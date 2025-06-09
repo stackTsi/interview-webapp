@@ -1,8 +1,8 @@
 package com.example.interviewWebapp.Service;
 
 
-import com.example.interviewWebapp.Dto.InterviewResponseDTO;
-import com.example.interviewWebapp.Dto.StartInterviewRequestDTO;
+import com.example.interviewWebapp.Dto.InterviewsDTO.InterviewResponseDTO;
+import com.example.interviewWebapp.Dto.InterviewsDTO.StartInterviewRequestDTO;
 import com.example.interviewWebapp.Entity.Enum.Category;
 import com.example.interviewWebapp.Entity.Enum.InterviewStatus;
 import com.example.interviewWebapp.Entity.Enum.Level;

@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Controller;
 
-import com.example.interviewWebapp.Dto.InterviewResponseDTO;
-import com.example.interviewWebapp.Dto.StartInterviewRequestDTO;
+import com.example.interviewWebapp.Dto.InterviewsDTO.InterviewResponseDTO;
+import com.example.interviewWebapp.Dto.InterviewsDTO.StartInterviewRequestDTO;
 import com.example.interviewWebapp.Entity.Users;
 import com.example.interviewWebapp.Security.AuthUserService;
 import com.example.interviewWebapp.Service.InterviewService;

@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Controller;
 
-import com.example.interviewWebapp.Dto.*;
-import com.example.interviewWebapp.Service.InterviewService;
+import com.example.interviewWebapp.Dto.ResponsesDTO.GetResponsesDTO;
+import com.example.interviewWebapp.Dto.ResponsesDTO.SubmitMultipleResponsesRequestDTO;
 import com.example.interviewWebapp.Service.ResponseService;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;

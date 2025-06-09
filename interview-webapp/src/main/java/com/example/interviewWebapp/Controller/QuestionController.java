@@ -1,8 +1,8 @@
 package com.example.interviewWebapp.Controller;
 
-import com.example.interviewWebapp.Dto.CreateQuestionsRequestDTO;
+import com.example.interviewWebapp.Dto.QuestionDTO.CreateQuestionsRequestDTO;
 import com.example.interviewWebapp.Dto.PagedResponseDTO;
-import com.example.interviewWebapp.Dto.QuestionResponseDTO;
+import com.example.interviewWebapp.Dto.QuestionDTO.QuestionResponseDTO;
 import com.example.interviewWebapp.Entity.Enum.Category;
 import com.example.interviewWebapp.Entity.Enum.Level;
 import com.example.interviewWebapp.Entity.Questions;

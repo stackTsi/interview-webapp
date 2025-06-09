@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Mapper;
 
-import com.example.interviewWebapp.Dto.CreateQuestionsRequestDTO;
-import com.example.interviewWebapp.Dto.QuestionResponseDTO;
+import com.example.interviewWebapp.Dto.QuestionDTO.CreateQuestionsRequestDTO;
+import com.example.interviewWebapp.Dto.QuestionDTO.QuestionResponseDTO;
 import com.example.interviewWebapp.Entity.Questions;
 import com.example.interviewWebapp.Entity.Users;
 import org.modelmapper.ModelMapper;
