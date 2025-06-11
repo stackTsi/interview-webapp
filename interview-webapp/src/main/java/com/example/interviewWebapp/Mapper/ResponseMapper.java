@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Mapper;
 
-import com.example.interviewWebapp.Dto.GetResponsesDTO;
-import com.example.interviewWebapp.Dto.SubmitResponseRequestDTO;
+import com.example.interviewWebapp.Dto.ResponsesDTO.GetResponses;
+import com.example.interviewWebapp.Dto.ResponsesDTO.SubmitResponseRequestDTO;
 import com.example.interviewWebapp.Entity.Responses;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
@@ -25,7 +25,7 @@ public class ResponseMapper {
         this.modelMapper = modelMapper;
     }
 
-    public GetResponsesDTO toDTO(Responses responses){
-        return modelMapper.map(responses, GetResponsesDTO.class);
+    public GetResponses toDTO(Responses responses){
+        return modelMapper.map(responses, GetResponses.class);
     }
 }

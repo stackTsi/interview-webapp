@@ -1,7 +1,7 @@
 package com.example.interviewWebapp.Controller;
 
-import com.example.interviewWebapp.Dto.*;
-import com.example.interviewWebapp.Service.InterviewService;
+import com.example.interviewWebapp.Dto.ResponsesDTO.GetResponses;
+import com.example.interviewWebapp.Dto.ResponsesDTO.SubmitMultipleResponsesRequestDTO;
 import com.example.interviewWebapp.Service.ResponseService;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
@@ -29,8 +29,8 @@ public class ResponseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetResponsesDTO>> getAllResponses(@PathVariable("interviewId") ObjectId interviewId) {
-        List<GetResponsesDTO> responses = responseService.getAllResponsesByInterviewId(interviewId);
+    public ResponseEntity<List<GetResponses>> getAllResponses(@PathVariable("interviewId") ObjectId interviewId) {
+        List<GetResponses> responses = responseService.getAllResponsesByInterviewId(interviewId);
         return ResponseEntity.ok(responses);
     }
 }

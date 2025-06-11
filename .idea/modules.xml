@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/interview-webapp.iml" filepath="$PROJECT_DIR$/.idea/interview-webapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-server/config-server/config-server.iml" filepath="$PROJECT_DIR$/config-server/config-server/config-server.iml" />
     </modules>
   </component>
 </project>

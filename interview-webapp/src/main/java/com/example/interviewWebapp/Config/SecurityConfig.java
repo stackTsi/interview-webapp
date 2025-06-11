@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.security.auth.callback.UnsupportedCallbackException;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -28,16 +30,19 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager customAuthenticationManager(HttpSecurity http) throws Exception{
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception{
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService)
+        authenticationManagerBuilder
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
         return authenticationManagerBuilder.build();
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CorsConfig corsConfig) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+            .cors(httpSecurityCorsConfigurer
+                    -> httpSecurityCorsConfigurer.configurationSource(corsConfig.corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/auth/**").permitAll()
                     .anyRequest().authenticated()
@@ -45,6 +50,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                     .loginProcessingUrl("/api/auth/login")
                     .successHandler(loginSuccessHandler)
+//                    .failureHandler()
                     .permitAll()
             )
             .logout(logout -> logout

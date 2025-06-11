@@ -1,8 +1,8 @@
 package com.example.interviewWebapp.Service;
 
 
-import com.example.interviewWebapp.Dto.InterviewResponseDTO;
-import com.example.interviewWebapp.Dto.StartInterviewRequestDTO;
+import com.example.interviewWebapp.Dto.InterviewsDTO.InterviewResponse;
+import com.example.interviewWebapp.Dto.InterviewsDTO.StartInterviewRequestDTO;
 import com.example.interviewWebapp.Entity.Enum.Category;
 import com.example.interviewWebapp.Entity.Enum.InterviewStatus;
 import com.example.interviewWebapp.Entity.Enum.Level;
@@ -37,7 +37,7 @@ public class InterviewService {
         this.modelMapper = modelMapper;
     }
 
-    public InterviewResponseDTO startInterview(String username, StartInterviewRequestDTO request) {
+    public InterviewResponse startInterview(String username, StartInterviewRequestDTO request) {
         Users user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -59,16 +59,16 @@ public class InterviewService {
         interview.setCreatedAt(new Date());
 
         interview = interviewRepo.save(interview);
-        return modelMapper.map(interview, InterviewResponseDTO.class);
+        return modelMapper.map(interview, InterviewResponse.class);
     }
 
-    public InterviewResponseDTO getInterviewById(ObjectId id) {
+    public InterviewResponse getInterviewById(ObjectId id) {
         Interviews interview = interviewRepo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Interview not found"));
-        return modelMapper.map(interview, InterviewResponseDTO.class);
+        return modelMapper.map(interview, InterviewResponse.class);
     }
 
-    public InterviewResponseDTO completeInterview(ObjectId id, Users authUsers){
+    public InterviewResponse completeInterview(ObjectId id, Users authUsers){
         Interviews interview = interviewRepo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Interview not found"));
 
@@ -84,7 +84,7 @@ public class InterviewService {
         interview.setEndTime(new Date());
         interviewRepo.save(interview);
 
-        return modelMapper.map(interview, InterviewResponseDTO.class);
+        return modelMapper.map(interview, InterviewResponse.class);
     }
 
 }

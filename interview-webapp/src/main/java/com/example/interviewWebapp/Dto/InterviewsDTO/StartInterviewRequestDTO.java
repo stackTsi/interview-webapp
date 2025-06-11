@@ -1,4 +1,4 @@
-package com.example.interviewWebapp.Dto;
+package com.example.interviewWebapp.Dto.InterviewsDTO;
 
 
 import com.example.interviewWebapp.Entity.Enum.Category;

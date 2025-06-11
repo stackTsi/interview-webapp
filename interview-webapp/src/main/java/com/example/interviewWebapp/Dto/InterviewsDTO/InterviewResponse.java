@@ -1,8 +1,8 @@
-package com.example.interviewWebapp.Dto;
+package com.example.interviewWebapp.Dto.InterviewsDTO;
 
 import java.util.Date;
 
-public class InterviewResponseDTO {
+public class InterviewResponse {
     private String id;
     private String userId;
     private String selectedLevel;

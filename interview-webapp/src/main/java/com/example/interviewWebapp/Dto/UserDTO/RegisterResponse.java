@@ -2,7 +2,7 @@ package com.example.interviewWebapp.Dto.UserDTO;
 
 import com.example.interviewWebapp.Entity.Enum.UserRole;
 
-public class RegisterResponseDTO {
+public class RegisterResponse {
     private String id;
     private String username;
     private String fullName;
